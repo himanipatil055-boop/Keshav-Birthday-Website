@@ -1,0 +1,847 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    background: #000;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+}
+.scene {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #000;
+    color: #fff;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity .8s ease, visibility .8s ease;
+
+    z-index: 10;
+}
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+}
+.scene h1,
+.scene h2 {
+    color: #fff;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    text-align: center;
+}
+#scene3 {
+    background: linear-gradient(
+        to bottom,
+        #000,
+        #111827
+    );
+}
+
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    font-size: 4rem;
+    color: #d4af37;
+    margin-bottom: 20px;
+    font-family: 'Cinzel', serif;
+}
+
+.content p {
+    color: #fff;
+    font-size: 1.3rem;
+    line-height: 1.8;
+}
+
+.content span {
+    color: #ffd700;
+    font-weight: bold;
+}
+button {
+    margin-top: 50px;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 40px;
+    background: #d4af37;
+    color: #000;
+    cursor: pointer;
+    font-size: 18px;
+    transition: .3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px gold;
+}
+#scene4 {
+    background: #000;
+}
+
+
+/*
+   IMPORTANT:
+   Scene 4 is fixed initially.
+   After journey starts, it becomes
+   part of normal page flow.
+*/
+
+body.journey-started #scene4 {
+    position: relative;
+    inset: auto;
+    min-height: 100vh;
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+} 
+.dream-card {
+    width: 650px;
+    max-width: 90%;
+    padding: 50px;
+    border-radius: 25px;
+    text-align: center;
+    background: rgba(255, 255, 255, .08);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, .15);
+    box-shadow:
+        0 0 30px rgba(212, 175, 55, .25);
+
+    transform: scale(.7);
+    opacity: 0;
+    transition: all .8s ease;
+}
+#scene4.active .dream-card {
+    transform: scale(1);
+    opacity: 1;
+}
+.icon {
+    font-size: 70px;
+    margin-bottom: 20px;
+    animation: float 2s ease-in-out infinite;
+}
+.dream-card h2 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+.dream-card h1 {
+    color: #d4af37;
+    margin-bottom: 30px;
+}
+.goal {
+    color: white;
+    font-size: 24px;
+    line-height: 1.8;
+}
+.goal span {
+    color: #ffd700;
+    font-weight: bold;
+}
+.quote {
+    color: #ddd;
+    margin: 30px 0;
+    font-style: italic;
+}
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+.scroll-indicator {
+    margin-top: 35px;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .8s ease;
+}
+.scroll-indicator.show {
+    opacity: 1;
+    visibility: visible;
+    animation:
+        scrollFloat 2s ease-in-out infinite;
+}
+.scroll-indicator span {
+    display: block;
+    color: #ffd700;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+.scroll-indicator p {
+    color: #aaa;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+@keyframes scrollFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(8px);
+    }
+}
+body.journey-started {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.story-section {
+    min-height: 100vh;
+    background:
+        linear-gradient(
+            to bottom,
+            #000,
+            #111827
+        );
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px;
+}
+.story-content {
+    max-width: 900px;
+}
+.story-content h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    color: #d4af37;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+}
+.story-content p {
+    color: #ddd;
+    font-size: 1.3rem;
+    line-height: 1.8;
+}
+.timeline-section {
+    position: relative;
+    min-height: 100vh;
+    background: #111827;
+    padding: 120px 8%;
+    color: white;
+}
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: auto;
+}
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background:
+        rgba(212, 175, 55, .25);
+    transform: translateX(-50%);
+    z-index: 0;
+}
+.timeline-item {
+    position: relative;
+    min-height: 850px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+    z-index: 1;
+}
+.timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 40px;
+    width: 65px;
+    height: 65px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #d4af37;
+    box-shadow:
+        0 0 15px #d4af37,
+        0 0 35px rgba(212, 175, 55, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+.timeline-dot span {
+    color: #000;
+    font-weight: 600;
+}
+.timeline-image {
+    width: 100%;
+    max-width: 450px;
+    justify-self: end;
+    border-radius: 25px;
+    overflow: hidden;
+    border:
+        1px solid
+        rgba(212, 175, 55, .25);
+    box-shadow:
+        0 0 30px
+        rgba(212, 175, 55, .15);
+}
+.timeline-image img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+.timeline-image:hover img {
+    transform: scale(1.05);
+}
+.timeline-content {
+    max-width: 450px;
+}
+.timeline-content h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    color: #d4af37;
+    margin-bottom: 35px;
+    letter-spacing: 2px;
+}
+.story-point {
+    margin-bottom: 28px;
+}
+.story-point h3 {
+    color: #ffd700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+.story-point p {
+    color: #ddd;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+.story-point.lesson {
+    padding-left: 20px;
+    border-left:
+        2px solid
+        #d4af37;
+}
+.appreciation {
+    margin-top: 35px;
+    padding: 20px;
+    color: #ffd700;
+    font-style: italic;
+    font-size: 1.1rem;
+    border:
+        1px solid
+        rgba(212, 175, 55, .2);
+
+    border-radius: 15px;
+    background:
+        rgba(212, 175, 55, .05);
+}
+.timeline-2025 .timeline-content strong {
+    color: #ffd700;
+}
+.timeline-2025 .appreciation {
+    margin-top: 35px;
+}
+.timeline-2025 .story-point p em {
+    color: #ddd;
+}
+.timeline-2026 .timeline-content {
+    max-width: 500px;
+}
+.timeline-2026 .timeline-image {
+    box-shadow:
+        0 0 30px rgba(212, 175, 55, .18),
+        0 0 70px rgba(212, 175, 55, .05);
+}
+.chapter-intro {
+    color: #aaa;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    margin-bottom: 45px;
+}
+.year-highlight,
+.year-highlights {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 12px 22px;
+    border:
+        1px solid
+        rgba(212, 175, 55, .45);
+    border-radius: 30px;
+    color: #ffd700;
+    background:
+        rgba(212, 175, 55, .08);
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow:
+        0 0 20px
+        rgba(212, 175, 55, .08);
+}
+.small-note {
+    color: #aaa !important;
+    font-size: .95rem !important;
+}
+.dream-connection {
+    margin-top: 25px;
+    color: #ddd;
+}
+.dream-connection strong {
+    color: #ffd700;
+}
+.reflection-card {
+    margin: 50px 0;
+    padding: 40px 25px;
+    border-radius: 25px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(212, 175, 55, .12),
+            rgba(255, 255, 255, .03)
+        );
+    border:
+        1px solid
+        rgba(212, 175, 55, .25);
+    text-align: center;
+    box-shadow:
+        0 0 35px
+        rgba(212, 175, 55, .08);
+}
+.path-combination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 30px 0;
+}
+.path-combination span {
+    padding: 10px 16px;
+    border-radius: 20px;
+    background:
+        rgba(255, 255, 255, .06);
+    border:
+        1px solid
+        rgba(255, 255, 255, .1);
+    color: #fff;
+    font-size: .9rem;
+}
+.path-combination b {
+    color: #d4af37;
+    font-size: 20px;
+}
+.reflection-main {
+    color: #ddd;
+    font-size: 1.2rem;
+    line-height: 1.9;
+}
+.reflection-main strong {
+    color: #ffd700;
+}
+.reflection-goal {
+    margin-top: 25px;
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+}
+.timeline-2026 .lesson {
+    padding: 30px;
+    border-left:
+        2px solid
+        #d4af37;
+    background:
+        rgba(212, 175, 55, .04);
+    border-radius:
+        0 15px 15px 0;
+}
+.timeline-2026 .lesson p {
+    margin-bottom: 20px;
+}
+.gold-message {
+    color: #ffd700 !important;
+    font-weight: 600;
+    font-size: 1.2rem !important;
+}
+.next-chapter-card h3 {
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    margin: 20px 0;
+}
+.pause-line {
+    width: 50px;
+    height: 1px;
+    background: #d4af37;
+    margin: 25px auto;
+}
+.next-chapter-card h4 {
+    color: #ffd700;
+    font-size: 1.4rem;
+    font-style: italic;
+    margin-bottom: 25px;
+}
+.next-chapter-card p {
+    color: #bbb;
+    line-height: 1.9;
+}
+.timeline-2026 .story-point,
+.timeline-2026 .reflection-card,
+.timeline-2026 .next-chapter-card {
+    opacity: 0;
+    transform: translateY(35px);
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+.timeline-2026 .timeline-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+.journey-complete-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 25px;
+    background:
+        linear-gradient(
+            to bottom,
+            #111827,
+            #050505
+        );
+}
+.journey-complete-content {
+    max-width: 900px;
+}
+.complete-label {
+    display: block;
+    color: #ffd700;
+    font-size: 13px;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+}
+.journey-complete-content h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    color: #d4af37;
+    letter-spacing: 2px;
+    margin: 30px 0;
+}
+.complete-line {
+    width: 150px;
+    height: 2px;
+    background: #d4af37;
+    margin: auto;
+    box-shadow:
+        0 0 15px
+        rgba(212, 175, 55, .5);
+}
+.complete-message {
+    color: #aaa;
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-top: 40px;
+}
+.journey-progress-section {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 25px;
+    background: #111827;
+    text-align: center;
+}
+.journey-progress-content {
+    width: 100%;
+   max-width: 850px;
+}
+.journey-progress-content h2 {
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+.progress-track {
+    width: 100%;
+    height: 12px;
+    background:
+        rgba(255, 255, 255, .08);
+    border-radius: 20px;
+    overflow: hidden;
+    border:
+        1px solid
+        rgba(212, 175, 55, .15);
+}
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #d4af37;
+    border-radius: inherit;
+    box-shadow:
+        0 0 15px
+        rgba(212, 175, 55, .6);
+    transition:
+        width 2s ease;
+}
+.progress-percent {
+    color: #ffd700;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 15px;
+}
+.journey-progress-content > p {
+    color: #aaa;
+    margin-top: 30px;
+    line-height: 1.8;
+}
+.progress-highlight {
+    color: #ddd !important;
+    font-style: italic;
+}
+.journey-progress-content h3 {
+    margin-top: 35px;
+    color: #aaa;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+.journey-progress-content h3 span {
+    color: #ffd700;
+}
+.best-of-luck-transition {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 25px;
+    background:
+        linear-gradient(
+            to bottom,
+            #111827,
+            #000
+        );
+}
+.best-of-luck-content {
+    max-width: 800px;
+}
+.dream-alive {
+    color: #ffd700;
+    font-size: 1.5rem;
+    font-family: 'Cinzel', serif;
+    margin-bottom: 15px;
+}
+.story-writing {
+    color: #aaa;
+    font-size: 1.15rem;
+    font-style: italic;
+}
+.transition-arrow {
+    color: #d4af37;
+    font-size: 35px;
+    margin: 50px 0;
+    animation:
+        nextChapterFloat
+        2s ease-in-out infinite;
+}
+.best-of-luck-content h2 {
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+@keyframes nextChapterFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+@media (max-width: 768px) {
+    .scene h1,
+    .scene h2 {
+        font-size: 2rem;
+    }
+    .content h1 {
+        font-size: 2.5rem;
+    }
+    .content p {
+        font-size: 1rem;
+    }
+    button {
+        padding: 13px 28px;
+        font-size: 15px;
+    }
+    .dream-card {
+        padding: 40px 25px;
+    }
+    .dream-card h1 {
+        font-size: 1.7rem;
+    }
+    .goal {
+        font-size: 1.1rem;
+    }
+    .story-content h1 {
+        font-size: 2.4rem;
+    }
+    .timeline-section {
+        padding: 80px 25px;
+    }
+    .timeline-line {
+        left: 25px;
+    }
+    .timeline-item {
+        display: block;
+        padding-left: 65px;
+        min-height: auto;
+        margin-bottom: 150px;
+    }
+    .timeline-dot {
+        left: 25px;
+        width: 50px;
+        height: 50px;
+    }
+    .timeline-image {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 50px;
+    }
+    .timeline-content {
+        max-width: 100%;
+    }
+    .timeline-content h2 {
+        font-size: 2rem;
+    }
+    .timeline-2026 .timeline-content {
+        max-width: 100%;
+    }
+    .timeline-2026 .lesson {
+        padding: 22px;
+    }
+    .year-highlight,
+    .year-highlights {
+        font-size: .85rem;
+    }
+    .reflection-card {
+        padding: 30px 18px;
+    }
+    .path-combination {
+        gap: 8px;
+    }
+    .path-combination span {
+        font-size: .8rem;
+        padding: 8px 12px;
+    }
+    .journey-complete-section {
+        min-height: 60vh;
+    }
+    .journey-complete-content h1 {
+        font-size: 2.5rem;
+        line-height: 1.4;
+    }
+    .journey-progress-content h2 {
+        font-size: 2rem;
+    }
+    .best-of-luck-transition {
+        min-height: 65vh;
+    }
+    .best-of-luck-content h2 {
+        font-size: 1.9rem;
+        line-height: 1.5;
+    }
+}
+.message-section {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 25px;
+    background: #050505;
+}
+.message-content {
+    max-width: 750px;
+}
+.message-content h2 {
+    font-family: 'Cinzel', serif;
+    color: #d4af37;
+    font-size: 2.8rem;
+    margin-bottom: 35px;
+}
+.personal-message {
+    display: none;
+    margin-top: 40px;
+    padding: 35px;
+    border: 1px solid rgba(212,175,55,.25);
+    border-radius: 20px;
+    background: rgba(212,175,55,.05);
+}
+.personal-message.show {
+    display: block;
+    animation: messageReveal .8s ease;
+}
+.personal-message p {
+    color: #ddd;
+    line-height: 1.9;
+    margin-bottom: 20px;
+}
+.message-final {
+    color: #ffd700 !important;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+@keyframes messageReveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.story-continues-section {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 25px;
+    background: linear-gradient(to bottom, #050505, #111827);
+}
+.story-continues-content span {
+    color: #aaa;
+    letter-spacing: 4px;
+    font-size: 13px;
+}
+.story-continues-content h1 {
+    font-family: 'Cinzel', serif;
+    color: #d4af37;
+    font-size: 3.5rem;
+    margin: 30px 0;
+}
+.story-continues-content p {
+    color: #bbb;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+.continue-arrow {
+    color: #ffd700;
+    font-size: 35px;
+    margin-top: 45px;
+    animation: nextChapterFloat 2s ease-in-out infinite;
+}
